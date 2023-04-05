@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AIApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName>Field_Service_Part_Recommendations</developerName>
+    <masterLabel>Field_Service_Part_Recommendations</masterLabel>
+    <status>Enabled</status>
+    <type>RecommendationBuilder</type>
+</AIApplication>

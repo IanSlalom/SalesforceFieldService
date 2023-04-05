@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <interviewLabel>Sample Update SA after After Start End {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update SA after After Start End</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Updated_Service_Appointment_Times</name>
+        <label>Updated Service Appointment Times</label>
+        <locationX>176</locationX>
+        <locationY>336</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Service_Appt_Scheduled_Start_End</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ActualStartTime</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ActualStartTime</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ActualEndTime</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ActualEndTime</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ServiceAppointment</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>ActualStartTime</queriedFields>
+        <queriedFields>ActualEndTime</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>automatically overwrite the scheduled start and end times of the appointment with the values of the Actual Start/End time of the Service Appointment after they are updated on the existing service appointment record that was scheduled (seen on Gantt)</description>
+        <name>Update_Service_Appt_Scheduled_Start_End</name>
+        <label>Update Service Appt Scheduled Start End</label>
+        <locationX>368</locationX>
+        <locationY>336</locationY>
+        <inputAssignments>
+            <field>SchedEndTime</field>
+            <value>
+                <elementReference>Updated_Service_Appointment_Times.ActualEndTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SchedStartTime</field>
+            <value>
+                <elementReference>Updated_Service_Appointment_Times.ActualStartTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Updated_Service_Appointment_Times</targetReference>
+        </connector>
+        <object>ServiceAppointment</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>
